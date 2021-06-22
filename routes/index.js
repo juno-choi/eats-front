@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const axios = require('axios');
+const apiUrl = 'http://localhost:8081/v1';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -17,9 +18,9 @@ router.get('/join', function(req, res, next) {
 });
 
 /* POST join. */
-router.post('/join', function(req, res, next) {
+router.post(apiUrl+'/join', function(req, res, next) {
   const params = req.body.params;
-  axios.post('http://localhost:8081/v1/join', {
+  axios.post('/join', {
     memberId: params.id,
     email : params.email,
     pw : params.pw
@@ -27,20 +28,27 @@ router.post('/join', function(req, res, next) {
     const data = result.data;
     console.log(data);
     res.json(data);
+  }).catch((error)=>{
+    console.log(error);
   });
 });
 
 /* POST login. */
 router.post('/login', function(req, res, next) {
   const params = req.body.params;
-  console.log(params);
-  axios.post('http://localhost:8081/v1/login', {
+  axios.post(apiUrl+'/login', {
     memberId: params.id,
     pw : params.pw
   }).then((result)=>{
     const data = result.data;
     console.log(data);
     res.json(data);
+  }).catch((error)=>{
+    if (error.response) {
+      console.log(error.response.data);
+      const data = {success : false};
+      res.json(data);
+    }
   });
 });
 
