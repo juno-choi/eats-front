@@ -5,7 +5,7 @@ const apiUrl = 'http://localhost:8081/v1';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index');
 });
 
 /* GET login page. */
