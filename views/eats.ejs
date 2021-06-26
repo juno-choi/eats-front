@@ -2,84 +2,76 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta content="IE=edge" http-equiv="X-UA-Compatible">
-  <meta content="width=device-width,initial-scale=1" name="viewport">
-  <meta content="description" name="description">
-  <meta name="google" content="notranslate" />
-  <meta content="Mashup templates have been developped by Orson.io team" name="author">
+  <title>Eats</title>  
+</head>
 
-  <!-- Disable tap highlight on IE -->
-  <meta name="msapplication-tap-highlight" content="no">
-  
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-icon-180x180.png">
-  <link href="./assets/favicon.ico" rel="icon">
-    <!-- font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
-    <!-- font -->
-
-  <title>Eats 이츠</title>  
-
-<link href="/assets/main.3f6952e4.css" rel="stylesheet"></head>
-<link href="/stylesheets/index.css" rel="stylesheet"></head>
-
-<body class="minimal">
-<div id="site-border-left"></div>
-<div id="site-border-right"></div>
-<div id="site-border-top"></div>
-<div id="site-border-bottom"></div>
-<!-- Add your content of header -->
+<body class="">
 <header>
-  <nav class="navbar navbar-fixed-top navbar-inverse">
-    <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-
-      <div class="collapse navbar-collapse" id="navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="/" title=""><h2 class="navbar-font">Home</h2></a></li>
-          <li><a href="/eats" title=""><h2 class="navbar-font">메뉴뽑기</h2></a></li>
-          <li><a href="/login" title=""><h2 class="navbar-font">로그인</h2></a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <% include template/header %>
 </header>
-<!-- Add your site or app content here -->
-  <div class="hero-full-container background-image-container white-text-container" style="background-image: url('/assets/images/space.jpg')">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="hero-full-wrapper">
-            <div class="text-content">
-              <h1>Eats입니다.<br>
-                <span id="typed-strings">
-                  <span>메뉴 고민하지 마세요!</span>
-                  <span>오늘 메뉴를 뽑아보세요!</span>
-                </span>
-                <span id="typed"></span>
-              </h1>
-            </div>
+<div class="section-container">
+  <div class="container">
+    <!-- 위치 찾기 -->
+    <div class="row mb-2">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="text-center">
+          <h1 class="h2">1. 현재 위치</h1>
+        </div>
+      </div>
+
+      <div class="col-md-12 text-center">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" id="postCodeBtn" class="btn btn-primary btn-lg">위치 찾기</button>
+          </div>
+          <div class="col-md-12">
+            <span id="postCodeData">현재 위치 정보</span>
           </div>
         </div>
       </div>
     </div>
+    <!-- 위치 찾기 종료 -->
+    <!-- 음식 종류 선택 -->
+    <div class="row mb-2">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="text-center">
+          <h1 class="h2">2. 음식 종류</h1>
+          <p>검색어를 정확하게 입력하지 않을시 데이터가 정확하지 않을 수 있습니다!<br/>ex) 한식, 중식, 일식, 양식, 중식, 파스타, 맛집 등</p>
+        </div>
+      </div>
+
+      <div class="col-md-12 text-center">
+        <div class="row">
+          <input type="text">
+        </div>
+        <div class="row mt-1">
+          <button type="button" class="btn btn-primary btn-lg">음식점 찾기</button>
+        </div>
+      </div>
+    </div>
+    <!-- 음식 종류 선택 종료 -->
+    <!-- 결과 맵 -->
+    <div class="row mb-2">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="text-center">
+          <h1 class="h2">3. 결과</h1>
+          <p></p>
+        </div>
+      </div>
+
+      <div class="col-md-12 text-center">
+        <div id="map" style="width:500px;height:400px;"></div>
+      </div>
+    </div>
+    <!-- 결과 맵 종료 -->
   </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function (event) {
-     type();
-     movingBackgroundImage();
-  });
-</script>
-
-
-<script type="text/javascript" src="/assets/main.70a66962.js"></script></body>
-
+</div>
+<footer>
+  <% include template/footer %>
+</footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/eats.js"></script>
+<script id="kakaoMapScript"></script>
 </html>

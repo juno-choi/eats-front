@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const axios = require('axios');
 const apiUrl = 'http://localhost:8081/v1';
+require('dotenv').config();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -12,9 +13,16 @@ router.get('/', function(req, res, next) {
 router.get('/login', function(req, res, next) {
   res.render('login');
 });
+
 /* GET join page. */
 router.get('/join', function(req, res, next) {
   res.render('join');
+});
+
+/* GET eats page. */
+router.get('/eats', function(req, res, next) {
+  res.render('eats');
+
 });
 
 /* POST join. */
@@ -51,5 +59,22 @@ router.post('/login', function(req, res, next) {
     }
   });
 });
+
+/* GET kakaomap api */
+router.get('/getKakaoMap', function(req, res, next) {
+  axios.get('https://dapi.kakao.com/v2/maps/sdk.js?appkey='+process.env.KAKAO_API_KEY+'&autoload=false')
+  .then((result)=>{
+    const data = result.data;
+    const responseData = {data:data};
+    res.json(responseData);
+  }).catch((error)=>{
+    if (error.response) {
+      console.log(error.response.data);
+      const data = {success : false};
+      res.json(data);
+    }
+  });
+});
+
 
 module.exports = router;
