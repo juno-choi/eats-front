@@ -21,7 +21,20 @@ router.get('/join', function(req, res, next) {
 
 /* GET eats page. */
 router.get('/eats', function(req, res, next) {
-  res.render('eats');
+  axios.get('https://dapi.kakao.com/v2/maps/sdk.js?appkey='+process.env.KAKAO_API_KEY)
+  .then((result)=>{
+    const data = result.data;
+    const kakaoMap = {data:data};
+    res.render('eats', {kakaoMap : kakaoMap});
+  }).catch((error)=>{
+    if (error.response) {
+      console.log(error.response.data);
+      const data = {success : false};
+      res.json(data);
+    }
+  });
+  
+ 
 
 });
 
@@ -51,22 +64,6 @@ router.post('/login', function(req, res, next) {
     const data = result.data;
     console.log(data);
     res.json(data);
-  }).catch((error)=>{
-    if (error.response) {
-      console.log(error.response.data);
-      const data = {success : false};
-      res.json(data);
-    }
-  });
-});
-
-/* GET kakaomap api */
-router.get('/getKakaoMap', function(req, res, next) {
-  axios.get('https://dapi.kakao.com/v2/maps/sdk.js?appkey='+process.env.KAKAO_API_KEY+'&autoload=false')
-  .then((result)=>{
-    const data = result.data;
-    const responseData = {data:data};
-    res.json(responseData);
   }).catch((error)=>{
     if (error.response) {
       console.log(error.response.data);

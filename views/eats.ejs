@@ -5,7 +5,7 @@
   <title>Eats</title>  
 </head>
 
-<body class="">
+<body>
 <header>
   <% include template/header %>
 </header>
@@ -22,10 +22,11 @@
       <div class="col-md-12 text-center">
         <div class="row">
           <div class="col-md-12">
-            <button type="button" id="postCodeBtn" class="btn btn-primary btn-lg">위치 찾기</button>
+            <!-- <span id="postCodeData">현재 위치 정보</span> -->
+            <span id="postCodeData"><span data-postcode="성남시 분당구 삼평동">성남시 분당구 삼평동</span></span>
           </div>
           <div class="col-md-12">
-            <span id="postCodeData">현재 위치 정보</span>
+            <button type="button" id="postCodeBtn" class="btn btn-primary btn-lg">위치 찾기</button>
           </div>
         </div>
       </div>
@@ -42,10 +43,17 @@
 
       <div class="col-md-12 text-center">
         <div class="row">
-          <input type="text">
+          <!-- <input type="text" id="keyword"> -->
+          <input type="text" id="keyword" value="짜장면">
         </div>
-        <div class="row mt-1">
-          <button type="button" class="btn btn-primary btn-lg">음식점 찾기</button>
+        <div class="row">
+          <input type="radio" name="sort" id="sort1" value="random" checked>
+          <label for="sort1">정확성</label>
+          <input type="radio" name="sort" id="sort2" value="comment">
+          <label for="sort2">리뷰순</label>
+        </div>
+        <div class="row">
+          <button type="button" class="btn btn-primary btn-lg" id="foodSearchBtn">음식점 찾기</button>
         </div>
       </div>
     </div>
@@ -58,9 +66,16 @@
           <p></p>
         </div>
       </div>
-
-      <div class="col-md-12 text-center">
-        <div id="map" style="width:500px;height:400px;"></div>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <p>결과 리스트</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+          <div id="map" style="width:100%;height:400px;"></div>
+        </div>
       </div>
     </div>
     <!-- 결과 맵 종료 -->
@@ -72,6 +87,6 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=<%=process.env.NAVER_CLOUD_ID%>&callback=initNaverMap&submodules=geocoder"></script>
 <script src="/js/eats.js"></script>
-<script id="kakaoMapScript"></script>
 </html>
