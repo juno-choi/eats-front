@@ -2,85 +2,104 @@
 <html>
 
 <head>
-  <title>Eats</title>  
+  <title>Eats 메뉴뽑기</title>  
 </head>
 
 <body>
 <header>
   <% include template/header %>
 </header>
-<div class="section-container">
-  <div class="container">
-    <!-- 위치 찾기 -->
-    <div class="row mb-2">
-      <div class="col-sm-8 col-sm-offset-2">
-        <div class="text-center">
-          <h1 class="h2">1. 현재 위치</h1>
-        </div>
-      </div>
+<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+  <header id="header" class="d-flex flex-column justify-content-center">
 
-      <div class="col-md-12 text-center">
-        <div class="row">
-          <div class="col-md-12">
-            <!-- <span id="postCodeData">현재 위치 정보</span> -->
-            <span id="postCodeData"><span data-postcode="성남시 분당구 삼평동">성남시 분당구 삼평동</span></span>
-          </div>
-          <div class="col-md-12">
-            <button type="button" id="postCodeBtn" class="btn btn-primary btn-lg">위치 찾기</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- 위치 찾기 종료 -->
-    <!-- 음식 종류 선택 -->
-    <div class="row mb-2">
-      <div class="col-sm-8 col-sm-offset-2">
-        <div class="text-center">
-          <h1 class="h2">2. 음식 종류</h1>
-          <p>검색어를 정확하게 입력하지 않을시 데이터가 정확하지 않을 수 있습니다!<br/>ex) 한식, 중식, 일식, 양식, 중식, 파스타, 맛집 등</p>
-        </div>
-      </div>
+  <nav id="navbar" class="navbar nav-menu">
+    <ul>
+      <li><a href="/" class="nav-link"><i class="bx bx-home"></i> <span>Home</span></a></li>
+      <li><a href="/eats" class="nav-link active"><i class="bx bx-server"></i> <span>메뉴뽑기</span></a></li>
+      <li><a href="/login" class="nav-link"><i class="bx bx-user"></i> <span>로그인</span></a></li>
+    </ul>
+  </nav>
+</header>
+<!-- ======= Contact Section ======= -->
+<section>
+  <div class="container" data-aos="fade-up">
 
-      <div class="col-md-12 text-center">
-        <div class="row">
-          <!-- <input type="text" id="keyword"> -->
-          <input type="text" id="keyword" value="짜장면">
+    <div class="section-title">
+      <h2>1. 위치 찾기</h2>
+    </div>
+    <div class="row mt-1 mb-5">
+      <div class="col-lg-12">
+        <!-- 위치 찾기 -->
+        <div class="row mb-2">
+          <div class="col-md-12 text-center">
+            <div class="row">
+              <div class="col-md-12">
+                <!-- <span id="postCodeData">현재 위치 정보</span> -->
+                <span id="postCodeData"><span data-postcode="성남시 분당구 삼평동">성남시 분당구 삼평동</span></span>
+              </div>
+              <div class="col-md-12">
+                <button type="button" id="postCodeBtn" class="btn btn-primary btn-lg">위치 찾기</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="row">
-          <input type="radio" name="sort" id="sort1" value="random" checked>
-          <label for="sort1">정확성</label>
-          <input type="radio" name="sort" id="sort2" value="comment">
-          <label for="sort2">리뷰순</label>
-        </div>
-        <div class="row">
-          <button type="button" class="btn btn-primary btn-lg" id="foodSearchBtn">음식점 찾기</button>
-        </div>
+        <!-- 위치 찾기 종료 -->
       </div>
     </div>
-    <!-- 음식 종류 선택 종료 -->
-    <!-- 결과 맵 -->
-    <div class="row mb-2">
-      <div class="col-sm-8 col-sm-offset-2">
-        <div class="text-center">
-          <h1 class="h2">3. 결과</h1>
-          <p></p>
+    <div class="section-title">
+      <h2>2. 음식 종류</h2>
+    </div>
+    <div class="row mt-1 mb-5">
+      <div class="col-lg-12">
+        <!-- 음식 종류 선택 -->
+        <div class="row mb-2">
+          <div class="col-sm-12">
+            <div class="text-center">
+              <p>검색어를 정확하게 입력하지 않을시 데이터가 정확하지 않을 수 있습니다!<br/>ex) 한식, 중식, 일식, 양식, 중식, 파스타, 맛집 등</p>
+            </div>
+          </div>
+
+          <div class="col-md-12 text-center">
+            <div class="col-md-12">
+              <!-- <input type="text" id="keyword"> -->
+              <input type="text" id="keyword" value="짜장면">
+            </div>
+            <div class="col-md-12">
+              <input type="radio" name="sort" id="sort1" value="random" checked>
+              <label for="sort1">정확성</label>
+              <input type="radio" name="sort" id="sort2" value="comment">
+              <label for="sort2">리뷰순</label>
+            </div>
+            <div class="col-md-12">
+              <button type="button" class="btn btn-primary btn-lg" id="foodSearchBtn">음식점 찾기</button>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <p>결과 리스트</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-1"></div>
-        <div class="col-10">
-          <div id="map" style="width:100%;height:400px;"></div>
-        </div>
+        <!-- 음식 종류 선택 종료 -->
       </div>
     </div>
-    <!-- 결과 맵 종료 -->
+    <div class="section-title">
+      <h2>3. 결과</h2>
+    </div>
+    <div class="row mt-1 mb-5">
+      <div class="col-lg-12">
+        <!-- 결과 맵 -->
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <p>결과 리스트</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-10">
+            <div id="map" style="width:100%;height:400px;"></div>
+          </div>
+        </div>
+      </div>
+        <!-- 결과 맵 종료 -->
+    </div>
   </div>
-</div>
+</section>
 <footer>
   <% include template/footer %>
 </footer>

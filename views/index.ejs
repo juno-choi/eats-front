@@ -1,86 +1,38 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <meta charset="UTF-8">
-  <meta content="IE=edge" http-equiv="X-UA-Compatible">
-  <meta content="width=device-width,initial-scale=1" name="viewport">
-  <meta content="description" name="description">
-  <meta name="google" content="notranslate" />
-  <meta content="Mashup templates have been developped by Orson.io team" name="author">
-
-  <!-- Disable tap highlight on IE -->
-  <meta name="msapplication-tap-highlight" content="no">
-  
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-icon-180x180.png">
-  <link href="./assets/favicon.ico" rel="icon">
-    <!-- font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
-    <!-- font -->
-
-  <title>Eats 이츠</title>  
-
-  <link href="/assets/main.3f6952e4.css" rel="stylesheet">
-  <link href="/stylesheets/common.css" rel="stylesheet">
+  <title>Eats</title>
 </head>
-
-<body class="minimal">
-<div id="site-border-left"></div>
-<div id="site-border-right"></div>
-<div id="site-border-top"></div>
-<div id="site-border-bottom"></div>
-<!-- Add your content of header -->
 <header>
-  <nav class="navbar navbar-fixed-top navbar-inverse">
-    <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-
-      <div class="collapse navbar-collapse" id="navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="/" title="" class="menu-font-size">Home</a></li>
-          <li><a href="/eats" title="" class="menu-font-size">메뉴뽑기</a></li>
-          <li><a href="/login" title="" class="menu-font-size">로그인</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <% include template/header %>
 </header>
-<!-- Add your site or app content here -->
-  <div class="hero-full-container background-image-container white-text-container" style="background-image: url('/assets/images/space.jpg')">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="hero-full-wrapper">
-            <div class="text-content">
-              <h1>Eats입니다.<br>
-                <span id="typed-strings">
-                  <span>메뉴 고민하지 마세요!</span>
-                  <span>오늘 메뉴를 뽑아보세요!</span>
-                </span>
-                <span id="typed"></span>
-              </h1>
-            </div>
-          </div>
-        </div>
+<body>
+  <!-- ======= Mobile nav toggle button ======= -->
+  <!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
+  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+  <header id="header" class="d-flex flex-column justify-content-center">
+
+    <nav id="navbar" class="navbar nav-menu">
+      <ul>
+        <li><a href="/" class="nav-link active"><i class="bx bx-home"></i> <span>Home</span></a></li>
+        <li><a href="/eats" class="nav-link"><i class="bx bx-server"></i> <span>메뉴뽑기</span></a></li>
+        <li><a href="/login" class="nav-link"><i class="bx bx-user"></i> <span>로그인</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="hero" class="d-flex flex-column justify-content-center">
+    <div class="container" data-aos="zoom-in" data-aos-delay="100">
+      <h1>Eats 입니다.</h1>
+      <p>메뉴 더이상 고민하지마세요. <span class="typed" data-typed-items="랜덤뽑기, 지역뽑기, 최대 20개 결과"></span></p>
+      <div class="social-links">
+        <a href="/eats">메뉴 뽑으러가기</i></a>
       </div>
     </div>
-  </div>
+  </section>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function (event) {
-     type();
-     movingBackgroundImage();
-  });
-</script>
-
-
-<script type="text/javascript" src="/assets/main.70a66962.js"></script></body>
-
+</body>
+<footer>
+  <% include template/footer %>
+</footer>
 </html>
