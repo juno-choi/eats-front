@@ -1,18 +1,16 @@
-document.addEventListener("DOMContentLoaded", () => {
-});
 window.onload = function(){
     document.getElementById('postCodeBtn').addEventListener('click', getPostCode);
-    document.getElementById('foodSearchBtn').addEventListener('click', getNaverSearch);
-    //initKakaoMap();
+    document.getElementById('foodSearchBtn').addEventListener('click', getGooleSearch);
+    initGoogleMap();
 }
 
+let post = {lat:0, lon:0};
 
 function getPostCode(){
     new daum.Postcode({
         oncomplete: function(data) {
             // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
             // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-            console.log(data);
             const address = data.address;
 
             const region = data.sigungu +' '+ data.bname;
@@ -22,147 +20,125 @@ function getPostCode(){
             span.setAttribute('data-postcode', region);
             span.innerText = region;
             target.appendChild(span);
+            Promise.resolve(data).then(o => {
+              const { address } = data;
+              return new Promise((resolve, reject) => {
+                  const geocoder = new daum.maps.services.Geocoder();
+                  geocoder.addressSearch(address, (result, status) =>{
+                      if(status === daum.maps.services.Status.OK){
+                          const { x, y } = result[0];
+                          resolve({ lat: y, lon: x })
+                      }else{
+                          reject();
+                      }
+                  });
+              });
+            }).then(postCode => {
+                // 위, 경도 결과 값
+                //{lat: "37.3784524525527", lon: "127.114295370128"} 수내역
+                //makeGoogleMap(postCode);
+                post.lat = postCode.lat;
+                post.lon = postCode.lon;
+            });
         }
     }).open();
 }
-/* 
-function initKakaoMap(){
-    
-    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-    var options = { //지도를 생성할 때 필요한 기본 옵션
-        center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-        level: 3 //지도의 레벨(확대, 축소 정도)
-    };
 
-    var map = new kakao.maps.Map(container, options);
-    
-} */
+let map;
 
-let map = null;
-let points= [];
-let markers = [];
-let infoWindows = [];
-//네이버 맵 API
-function initNaverMap() {
-    map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(37.3595704, 127.105399),
-        zoom: 10
-    });
+function initGoogleMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 16,
+    center: new google.maps.LatLng(37.3968925296743, 127.111925428711)
+  });
 }
 
-
-//네이버 검색 API 결과
-function getNaverSearch(){
-    
-    const local = document.querySelector('#postCodeData').firstElementChild.dataset.postcode;
-    const keyword = document.getElementById('keyword').value;
-    let sort = 'random';
-    document.querySelectorAll('input[name=sort]').forEach((item)=>{
-        if(item.checked){
-            sort = item.value;
-        }
-    });
-    axios.post('/naver/search', {
-        local : local,
-        keyword : keyword,
-        sort : sort
-    }).then((result)=>{
-        const data = result.data;
-        const items = data.items;
-        infoWindows.length=0;
-        items.forEach((item)=>{
-            searchAddressToCoordinate(item.address);
-        });
-        
-        const idx = getRandomInt(0,items.length);
-
-        window.setTimeout(function(){
-            map = new naver.maps.Map('map', {
-                center: new naver.maps.LatLng(points[idx].y, points[idx].x),
-                zoom: 16
-            });
-        },1000);
-
-        window.setTimeout(excutionMarker(items),1000);
-
-        points.length=0;
-
-    }).catch((error)=>{
-        console.log(error);
-    });
+function makeGoogleMap(postCode){
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 16,
+    center: new google.maps.LatLng(postCode.lat, postCode.lon)
+  });
 }
 
-//주소를 좌표로 변환
-function searchAddressToCoordinate(address) {
-    naver.maps.Service.geocode({
-        query: address
-    }, function(status, response) {
-        if (status === naver.maps.Service.Status.ERROR) {
-        if (!address) {
-            return alert('Geocode Error, Please check address');
-        }
-            return alert('Geocode Error, address:' + address);
-        }
+//google marker 만들기
+function makeGoogleMarker(results){
+  const data = results.data.results;
+  const postCode = {lat : post.lat, lon : post.lon}
+  makeGoogleMap(postCode);
 
-        if (response.v2.meta.totalCount === 0) {
-            return alert('No result.');
-        }
-        
-        var htmlAddresses = [],
-        item = response.v2.addresses[0],
-        point = new naver.maps.Point(item.x, item.y);
-        points.push(point);
-    });
-}
+  for (let i = 0; i < data.length; i++) {
+    let focus = false;
+    const coords = data[i].geometry.location;
+    const latLng = new google.maps.LatLng(coords.lat, coords.lng);
 
-//marker 정보 만들기
-function makeNaverMarker(x,y,item){
-    let marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(y, x),
-        map: map
+    const marker = new google.maps.Marker({
+      position: latLng,
+      map: map,
+      title : data[i].name
     });
-    let infoWindow = new naver.maps.InfoWindow({
-        content: '<div style="width:150px;text-align:center;padding:10px;">The Letter is <b>"'+item.title+'"</b>.</div>'
+    const contentString =
+    '<div id="content">' +
+    '<div id="siteNotice">' +
+    "</div>" +
+    '<h1 id="firstHeading" class="firstHeading">'+data[i].name+'</h1>' +
+    '<div id="bodyContent">' +
+    "<p>"+
+    "별점 = "+data[i].rating+
+    "</p>" +
+    "<p>"+
+    "가격대 = "+data[i].price_level+
+    "</p>" +
+    "</div>" +
+    "</div>";
+    const infowindow = new google.maps.InfoWindow({
+      content: contentString,
     });
+    marker.addListener("click", () => {
+      infowindow.open({
+        anchor: marker,
+        map,
+        shouldFocus: true,
+      });
+    });
+  }
+};
 
-    markers.push(marker);
-    infoWindows.push(infoWindow);
-}
-
-//market 만들기 실행
-function excutionMarker(items){
-    let i=0;
-    points.forEach((point)=>{
-        makeNaverMarker(point.x, point.y, items[i]);
-        i++;
-    });
-    addMarkerEvent();
+//Google place API 결과
+function getGooleSearch(){
+  $('#modal').modal('show');
+  const keyword = document.getElementById('keyword').value;
+  axios.post('/google/search', {
+    lat : post.lat,
+    lon : post.lon,
+    keyword : keyword
+  }).then((result)=>{
+    //음식점의 정보를 가져오는 코드
+    //console.log(result);
+    makeGoogleMarker(result);
+  }).catch((error)=>{
+    console.log(error);
+  });
+  
+  window.setTimeout(clickRandomMarker, 2000);
+  
 }
 
 //랜덤수 얻기
 function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
 }
 
-//마커에 클릭 이벤트 넣어주기
-function addMarkerEvent(){
-    for (var i=0, ii=markers.length; i<ii; i++) {
-        naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+function clickRandomMarker(){
+  const areas = document.querySelectorAll('area');
+  const random = getRandomInt(0, areas.length);
+  const title = areas[random].getAttribute('title');
+  areas.forEach((area)=>{
+    const areaTitle = area.getAttribute('title');
+    if(title==areaTitle) {
+      area.click();
     }
-}
-
-//마커 클릭 이벤트
-function getClickHandler(seq) {
-    return function(e) {
-        var marker = markers[seq],
-            infoWindow = infoWindows[seq];
-
-        if (infoWindow.getMap()) {
-            infoWindow.close();
-        } else {
-            infoWindow.open(map, marker);
-        }
-    }
+  });
+  $('#modal').modal('hide');
 }

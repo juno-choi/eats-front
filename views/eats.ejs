@@ -35,7 +35,7 @@
             <div class="row">
               <div class="col-md-12">
                 <!-- <span id="postCodeData">현재 위치 정보</span> -->
-                <span id="postCodeData"><span data-postcode="성남시 분당구 삼평동">성남시 분당구 삼평동</span></span>
+                <span id="postCodeData"><span>위치 정보 없음</span></span>
               </div>
               <div class="col-md-12">
                 <button type="button" id="postCodeBtn" class="btn btn-primary btn-lg">위치 찾기</button>
@@ -62,13 +62,13 @@
           <div class="col-md-12 text-center">
             <div class="col-md-12">
               <!-- <input type="text" id="keyword"> -->
-              <input type="text" id="keyword" value="짜장면">
+              <input type="text" id="keyword" placeholder="한식" value="짜장면">
             </div>
             <div class="col-md-12">
-              <input type="radio" name="sort" id="sort1" value="random" checked>
-              <label for="sort1">정확성</label>
-              <input type="radio" name="sort" id="sort2" value="comment">
-              <label for="sort2">리뷰순</label>
+              <input type="radio" name="rankby" id="sort1" value="distance" checked>
+              <label for="sort1">가까운 곳 기준</label>
+              <input type="radio" name="rankby" id="sort2" value="prominence">
+              <label for="sort2">인기 있는 곳 기준</label>
             </div>
             <div class="col-md-12">
               <button type="button" class="btn btn-primary btn-lg" id="foodSearchBtn">음식점 찾기</button>
@@ -99,6 +99,24 @@
         <!-- 결과 맵 종료 -->
     </div>
   </div>
+  <!-- Modal -->
+  <div id="modal" class="modal fade" data-bs-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">뽑기 중</h4>
+        </div>
+        <div class="modal-body">
+          <p>검색 결과와 추천 음식점을 뽑는 중입니다. 잠시만 기다려주세요!</p>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Modal -->
 </section>
 <footer>
   <% include template/footer %>
@@ -106,6 +124,9 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=<%=process.env.NAVER_CLOUD_ID%>&callback=initNaverMap&submodules=geocoder"></script>
+<!-- <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=<%=process.env.NAVER_CLOUD_ID%>&callback=initNaverMap&submodules=geocoder"></script> -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%=process.env.GOOGLE_API_KEY%>" type="text/javascript"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<%=process.env.KAKAO_API_KEY%>&libraries=services"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/eats.js"></script>
 </html>
