@@ -105,7 +105,7 @@ function makeGoogleMarker(results){
 
 //Google place API 결과
 function getGooleSearch(){
-  //$('#modal').modal('show');
+  $('#modal').modal('show');
   const keyword = document.getElementById('keyword').value;
   axios.post('/google/search', {
     lat : post.lat,
@@ -126,6 +126,7 @@ function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+
 }
 
 function clickRandomMarker(){
@@ -138,5 +139,5 @@ function clickRandomMarker(){
       area.click();
     }
   });
-  //$('#modal').modal('hide');
+  $('#modal').modal('hide');
 }
