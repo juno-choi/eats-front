@@ -105,7 +105,7 @@ function makeGoogleMarker(results){
 
 //Google place API 결과
 function getGooleSearch(){
-  $('#modal').modal('show');
+  //$('#modal').modal('show');
   const keyword = document.getElementById('keyword').value;
   axios.post('/google/search', {
     lat : post.lat,
@@ -119,7 +119,7 @@ function getGooleSearch(){
     console.log(error);
   });
   
-  window.setTimeout(clickRandomMarker, 2000);
+  window.setTimeout(clickRandomMarker, 4000);
   
 }
 
@@ -140,5 +140,5 @@ function clickRandomMarker(){
       area.click();
     }
   });
-  $('#modal').modal('hide');
+  //$('#modal').modal('hide');
 }
