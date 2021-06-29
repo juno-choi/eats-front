@@ -120,7 +120,6 @@ function getGooleSearch(){
   });
   
   window.setTimeout(clickRandomMarker, 10000);
-}
 
 //랜덤수 얻기
 function getRandomInt(min, max) {
