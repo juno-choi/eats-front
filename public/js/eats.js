@@ -119,7 +119,7 @@ function getGooleSearch(){
     console.log(error);
   });
   
-  window.setTimeout(clickRandomMarker, 2000);
+  window.setTimeout(clickRandomMarker, 1500);
   
 }
 
