@@ -119,8 +119,7 @@ function getGooleSearch(){
     console.log(error);
   });
   
-  window.setTimeout(clickRandomMarker, 5000);
-  
+  window.setTimeout(clickRandomMarker, 10000);
 }
 
 //랜덤수 얻기
