@@ -62,12 +62,13 @@ function makeGoogleMap(postCode){
 
 //google marker 만들기
 function makeGoogleMarker(results){
-  const data = results.data.results;
-  const postCode = {lat : post.lat, lon : post.lon}
-  makeGoogleMap(postCode);
+    const data = results.data.results;
+    const postCode = {lat : post.lat, lon : post.lon}
+    makeGoogleMap(postCode);
+    const dataLength = data.length;
+    const random = getRandomInt(0,dataLength);
 
-  for (let i = 0; i < data.length; i++) {
-    let focus = false;
+    for (let i = 0; i < dataLength; i++) {
     const coords = data[i].geometry.location;
     const latLng = new google.maps.LatLng(coords.lat, coords.lng);
 
@@ -100,43 +101,32 @@ function makeGoogleMarker(results){
         shouldFocus: true,
       });
     });
-  }
+    if(random==i) google.maps.event.trigger(marker, 'click');
+    }
 };
 
 //Google place API 결과
 function getGooleSearch(){
-  //$('#modal').modal('show');
-  const keyword = document.getElementById('keyword').value;
-  axios.post('/google/search', {
-    lat : post.lat,
-    lon : post.lon,
-    keyword : keyword
-  }).then((result)=>{
-    //음식점의 정보를 가져오는 코드
-    //console.log(result);
-    makeGoogleMarker(result);
-  }).catch((error)=>{
-    console.log(error);
-  });
-  
-  window.setTimeout(clickRandomMarker, 5000);
+    $('#modal').modal('show');
+    const keyword = document.getElementById('keyword').value;
+    window.setTimeout(()=>{
+        axios.post('/google/search', {
+            lat : post.lat,
+            lon : post.lon,
+            keyword : keyword
+        }).then(async (result)=>{
+            //음식점의 정보를 가져오는 코드
+            //console.log(result);
+            await makeGoogleMarker(result);
+            $('#modal').modal('hide');
+        }).catch((error)=>{
+            console.log(error);
+        });
+    },1000);
 }
 //랜덤수 얻기
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
-}
-
-function clickRandomMarker(){
-  const areas = document.querySelectorAll('area');
-  const random = getRandomInt(0, areas.length);
-  const title = areas[random].getAttribute('title');
-  areas.forEach((area)=>{
-    const areaTitle = area.getAttribute('title');
-    if(title==areaTitle) {
-      area.click();
-    }
-  });
-  //$('#modal').modal('hide');
 }
