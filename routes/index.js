@@ -33,8 +33,6 @@ router.get('/eats', function(req, res, next) {
       res.json(data);
     }
   });
-  
- 
 
 });
 
