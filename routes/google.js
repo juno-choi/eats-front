@@ -11,20 +11,22 @@ router.post('/search', function(req, res, next) {
   const lat = body.lat;
   const lon = body.lon;
   const keyword = body.keyword;
-  const radius = 300;
-  const rankby = body.rankby;
+  const radius = body.radius;
+  const opennow = body.opennow;
   const type = 'restaurant';
-  const api_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
+  let api_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
                   +'location='+lat+','+lon
                   +'&language=ko'
-                  //+'&opennow'
                   +'&radius='+radius
                   +'&type='+type
-                  +'&keyword=' + encodeURI(keyword)
+                  +'&name=' + encodeURI(keyword)
+                  //+'&keyword=' + encodeURI(keyword)
+                  +'&keyword=restaurant'
                   +'&key='+api_key; // json 결과
-  if(rankby=='distance'){
-    api_url = api_url+'&distance';
+  if(opennow == 'Y'){
+    api_url += '&opennow';
   }
+  console.log(api_url);
   axios({
     method : 'get',
     url : api_url
