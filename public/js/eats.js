@@ -1,10 +1,10 @@
 window.onload = function(){
     document.getElementById('postCodeBtn').addEventListener('click', getPostCode);
-    document.getElementById('foodSearchBtn').addEventListener('click', getGooleSearch);
+    document.getElementById('foodSearchBtn').addEventListener('click', searchRestaurant);
     initGoogleMap();
 }
 
-let post = {lat:0, lon:0};
+let post = {lat:37.3784524525527, lon:127.114295370128};
 
 function getPostCode(){
     new daum.Postcode({
@@ -105,18 +105,49 @@ function makeGoogleMarker(results){
     }
 };
 
+//음식점 찾기 버튼 클릭
+function searchRestaurant(){
+    //유효성 검사
+    if(!searchRestaurantValidation()){
+        return ;
+    }
+    getGooleSearch();
+}
+
+//음식점 찾기 validation 체크
+function searchRestaurantValidation(){
+    const target1 = document.getElementById('postCodeData').firstElementChild;
+    const postcode = target1.dataset.postcode;
+    if(typeof postcode == 'undefined'){
+        alert('위치 정보를 먼저 입력해주세요!');
+        getPostCode();
+        return false;
+    }
+    const target2 = document.getElementById('keyword');
+    if(target2.value == ''){
+        alert('음식 종류를 선택해주세요!');
+        target2.focus();
+        return false;
+    }
+
+    return true;
+}
 //Google place API 결과
 function getGooleSearch(){
     $('#modal').modal('show');
     const keyword = document.getElementById('keyword').value;
+    const radius = document.querySelector('input[name=radius]:checked').value;
+    const opennow = document.querySelector('input[name=opennow]:checked').value;
     window.setTimeout(()=>{
         axios.post('/google/search', {
             lat : post.lat,
             lon : post.lon,
-            keyword : keyword
+            keyword : keyword,
+            radius : radius,
+            opennow : opennow
         }).then(async (result)=>{
             //음식점의 정보를 가져오는 코드
-            //console.log(result);
+            console.log(result);
             await makeGoogleMarker(result);
             $('#modal').modal('hide');
         }).catch((error)=>{
