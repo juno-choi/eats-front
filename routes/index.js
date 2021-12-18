@@ -36,6 +36,16 @@ router.get('/eats', function(req, res, next) {
 
 });
 
+/* GET join page. */
+router.get('/game', function(req, res, next) {
+  res.render('game/index');
+});
+
+/* GET join page. */
+router.get('/jisung', function(req, res, next) {
+  res.render('game/jisung');
+});
+
 /* POST join. */
 router.post(apiUrl+'/join', function(req, res, next) {
   const params = req.body.params;
