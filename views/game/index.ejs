@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="theme-color" content="#000000" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #000000;
+            overflow: hidden;
+		}
+        #canvasArea {
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
+        }
+
+        
+	</style>
+    <!-- Libs and GDJS core files : -->
+	<script src="/game/libs/jshashtable.js" crossorigin="anonymous"></script>
+	<script src="/game/logger.js" crossorigin="anonymous"></script>
+	<script src="/game/gd.js" crossorigin="anonymous"></script>
+	<script src="/game/libs/rbush.js" crossorigin="anonymous"></script>
+	<script src="/game/inputmanager.js" crossorigin="anonymous"></script>
+	<script src="/game/jsonmanager.js" crossorigin="anonymous"></script>
+	<script src="/game/timemanager.js" crossorigin="anonymous"></script>
+	<script src="/game/runtimeobject.js" crossorigin="anonymous"></script>
+	<script src="/game/profiler.js" crossorigin="anonymous"></script>
+	<script src="/game/runtimescene.js" crossorigin="anonymous"></script>
+	<script src="/game/scenestack.js" crossorigin="anonymous"></script>
+	<script src="/game/polygon.js" crossorigin="anonymous"></script>
+	<script src="/game/force.js" crossorigin="anonymous"></script>
+	<script src="/game/layer.js" crossorigin="anonymous"></script>
+	<script src="/game/timer.js" crossorigin="anonymous"></script>
+	<script src="/game/runtimegame.js" crossorigin="anonymous"></script>
+	<script src="/game/variable.js" crossorigin="anonymous"></script>
+	<script src="/game/variablescontainer.js" crossorigin="anonymous"></script>
+	<script src="/game/oncetriggers.js" crossorigin="anonymous"></script>
+	<script src="/game/runtimebehavior.js" crossorigin="anonymous"></script>
+	<script src="/game/spriteruntimeobject.js" crossorigin="anonymous"></script>
+	<script src="/game/events-tools/commontools.js" crossorigin="anonymous"></script>
+	<script src="/game/events-tools/variabletools.js" crossorigin="anonymous"></script>
+	<script src="/game/events-tools/runtimescenetools.js" crossorigin="anonymous"></script>
+	<script src="/game/events-tools/inputtools.js" crossorigin="anonymous"></script>
+	<script src="/game/events-tools/objecttools.js" crossorigin="anonymous"></script>
+	<script src="/game/events-tools/cameratools.js" crossorigin="anonymous"></script>
+	<script src="/game/events-tools/soundtools.js" crossorigin="anonymous"></script>
+	<script src="/game/events-tools/storagetools.js" crossorigin="anonymous"></script>
+	<script src="/game/events-tools/stringtools.js" crossorigin="anonymous"></script>
+	<script src="/game/events-tools/windowtools.js" crossorigin="anonymous"></script>
+	<script src="/game/events-tools/networktools.js" crossorigin="anonymous"></script>
+	<script src="/game/splash/gd-logo-light.js" crossorigin="anonymous"></script>
+	<script src="/game/pixi-renderers/pixi.js" crossorigin="anonymous"></script>
+	<script src="/game/pixi-renderers/pixi-filters-tools.js" crossorigin="anonymous"></script>
+	<script src="/game/pixi-renderers/runtimegame-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="/game/pixi-renderers/runtimescene-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="/game/pixi-renderers/layer-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="/game/pixi-renderers/pixi-image-manager.js" crossorigin="anonymous"></script>
+	<script src="/game/pixi-renderers/pixi-bitmapfont-manager.js" crossorigin="anonymous"></script>
+	<script src="/game/pixi-renderers/spriteruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="/game/pixi-renderers/loadingscreen-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="/game/pixi-renderers/pixi-effects-manager.js" crossorigin="anonymous"></script>
+	<script src="/game/howler-sound-manager/howler.min.js" crossorigin="anonymous"></script>
+	<script src="/game/howler-sound-manager/howler-sound-manager.js" crossorigin="anonymous"></script>
+	<script src="/game/fontfaceobserver-font-manager/fontfaceobserver.js" crossorigin="anonymous"></script>
+	<script src="/game/fontfaceobserver-font-manager/fontfaceobserver-font-manager.js" crossorigin="anonymous"></script>
+	<script src="/game/Extensions/PlatformBehavior/platformruntimebehavior.js" crossorigin="anonymous"></script>
+	<script src="/game/Extensions/PlatformBehavior/platformerobjectruntimebehavior.js" crossorigin="anonymous"></script>
+	<script src="/game/Extensions/PlatformBehavior/platformtools.js" crossorigin="anonymous"></script>
+	<script src="/game/Extensions/TiledSpriteObject/tiledspriteruntimeobject.js" crossorigin="anonymous"></script>
+	<script src="/game/Extensions/TiledSpriteObject/tiledspriteruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="/game/Extensions/TweenBehavior/shifty.js" crossorigin="anonymous"></script>
+	<script src="/game/Extensions/TweenBehavior/tweenruntimebehavior.js" crossorigin="anonymous"></script>
+	<script src="/game/Extensions/TextObject/textruntimeobject.js" crossorigin="anonymous"></script>
+	<script src="/game/Extensions/TextObject/textruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="/game/Extensions/AnchorBehavior/anchorruntimebehavior.js" crossorigin="anonymous"></script>
+	<script src="/game/gdjs-evtsext__parallax__horizontaltiledspriteparallax.js" crossorigin="anonymous"></script>
+	<script src="/game/Extensions/SystemInfo/systeminfotools.js" crossorigin="anonymous"></script>
+	<script src="/game/code0.js" crossorigin="anonymous"></script>
+	<script src="/game/data.js" crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+
+    
+	<script>
+
+    (function() {
+        //Initialization
+        var game = new gdjs.RuntimeGame(gdjs.projectData, {});
+
+        //Create a renderer
+        game.getRenderer().createStandardCanvas(document.body);
+
+        //Bind keyboards/mouse/touch events
+        game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
+
+        //Load all assets and start the game
+        game.loadAllAssets(function() {
+            game.startGameLoop();
+        });
+    })();
+
+	</script>
+</body>
+</html>
