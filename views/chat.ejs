@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>채팅</title>
+</head>
+<header>
+  <% include template/header %>
+</header>
+<body>
+  <!-- ======= Contact Section ======= -->
+<section>
+  <form id="chat">
+    <div class="container" data-aos="fade-up">
+      <div class="section-title">
+        <h2>채팅창</h2>
+      </div>
+      <div class="row mt-1 mb-5">
+        <div class="col-lg-12">
+          <div class="col-lg-3 mb-1"><input id="name" class="form-control" placeholder="이름"/></div>
+          <!-- 채팅창 -->
+          <div class="row mb-2">
+            <div class="col-md-12">
+              <div class="row">
+                <textarea id="chatLog" class="col-md-12" style="min-height: 20em; background-color: rgb(178,199,217);"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 채팅창 종료 -->
+          <div class="row">
+            <div class="col-md-12">
+                <textarea id="message" class="form-control"></textarea>
+            </div>
+            <div class="col-md-12 mt-1 text-center">
+                <button type="submit" class="btn btn-primary btn-lg">전송</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  </section>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  const socket = io(); //1
+  $('#chat').on('submit', function(e){ //2
+      const name = $('#name').val();
+      if(name == ''){
+        alert('이름을 입력해주세요');
+        $('#name').focus();
+        e.preventDefault();
+        return;
+      }
+      socket.emit('send message', $('#name').val(), $('#message').val());
+      $('#message').val('');
+      $('#message').focus();
+      e.preventDefault();
+  });
+  socket.on('receive message', function(msg){ //3
+      $('#chatLog').append(msg+'\n');
+      $('#chatLog').scrollTop($('#chatLog')[0].scrollHeight);
+  });
+  socket.on('change name', function(name){ //4
+      //$('#name').val(name);
+  });
+</script>
+
+<footer>
+  <% include template/footer %>
+</footer>
+</html>
