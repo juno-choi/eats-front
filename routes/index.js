@@ -4,6 +4,7 @@ const axios = require('axios');
 const apiUrl = 'http://localhost:8081/v1';
 require('dotenv').config();
 
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index');
@@ -36,14 +37,19 @@ router.get('/eats', function(req, res, next) {
 
 });
 
-/* GET join page. */
+/* GET game page. */
 router.get('/game', function(req, res, next) {
   res.render('game/index');
 });
 
-/* GET join page. */
+/* GET game page. */
 router.get('/jisung', function(req, res, next) {
   res.render('game/jisung');
+});
+
+/* GET chat page. */
+router.get('/chat', function(req, res, next) {
+  res.render('chat');
 });
 
 /* POST join. */
@@ -80,6 +86,5 @@ router.post('/login', function(req, res, next) {
     }
   });
 });
-
 
 module.exports = router;
