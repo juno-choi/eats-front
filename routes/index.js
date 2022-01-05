@@ -22,19 +22,7 @@ router.get('/join', function(req, res, next) {
 
 /* GET eats page. */
 router.get('/eats', function(req, res, next) {
-  axios.get('https://dapi.kakao.com/v2/maps/sdk.js?appkey='+process.env.KAKAO_API_KEY)
-  .then((result)=>{
-    const data = result.data;
-    const kakaoMap = {data:data};
-    res.render('eats', {kakaoMap : kakaoMap});
-  }).catch((error)=>{
-    if (error.response) {
-      console.log(error.response.data);
-      const data = {success : false};
-      res.json(data);
-    }
-  });
-
+  res.render('eats');
 });
 
 /* GET game page. */
